@@ -32,12 +32,12 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget createBudget(BudgetID id, Money assignedAmount) {
-        Optional<MonthlyRecord> monthlyRecord = this.monthlyRecordRepository.findById(id.getMonthlyRecordID());
-        if(!monthlyRecord.isPresent()) {
+        Optional<MonthlyRecord> optionalMonthlyRecord = this.monthlyRecordRepository.findById(id.getMonthlyRecordID());
+        if(!optionalMonthlyRecord.isPresent()) {
             throw new NotFoundException("Monthly record does not exist");
         }
 
-        Budget budget = new Budget(id, assignedAmount);
+        Budget budget = new Budget(id, assignedAmount, optionalMonthlyRecord.get());
         return this.budgetRepository.save(budget);
     }
 

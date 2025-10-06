@@ -38,11 +38,11 @@ public class BudgetController {
         return ResponseEntity.ok("OK");
     }
 
-    @GetMapping
+    @GetMapping("/{year}/{month}/{category}")
     public ResponseEntity<?> findByMonthAndYearAndCategory(
-            @RequestParam("month") @Min(value = 1, message = "Month must be between 1 and 12") @Max(value = 12, message = "Month must be between 1 and 12") int month,
-            @RequestParam("year") int year,
-            @RequestParam("category") BudgetCategory category
+            @PathVariable("month") @Min(value = 1, message = "Month must be between 1 and 12") @Max(value = 12, message = "Month must be between 1 and 12") int month,
+            @PathVariable("year") int year,
+            @PathVariable("category") BudgetCategory category
     ) {
         MonthlyRecordID monthlyRecordID = new MonthlyRecordID(
                 new Month(month),

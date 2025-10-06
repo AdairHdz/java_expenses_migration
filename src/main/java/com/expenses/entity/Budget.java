@@ -20,9 +20,10 @@ public class Budget {
 
     public Budget() {}
 
-    public Budget(BudgetID id, Money assignedAmount) {
+    public Budget(BudgetID id, Money assignedAmount, MonthlyRecord monthlyRecord) {
         this.id = id;
         this.assignedAmount = assignedAmount.toMXN() != 0 ? (int)(assignedAmount.toMXN() * 100) : 0;
+        this.monthlyRecord = monthlyRecord;
     }
 
     public void setId(BudgetID id) {
