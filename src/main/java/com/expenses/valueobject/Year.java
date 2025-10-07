@@ -1,6 +1,7 @@
 package com.expenses.valueobject;
 
 import com.expenses.exception.DomainException;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Year {
     public final int year;
@@ -12,6 +13,7 @@ public class Year {
         this.year = year;
     }
 
+    @JsonValue
     public int get() {
         return this.year;
     }

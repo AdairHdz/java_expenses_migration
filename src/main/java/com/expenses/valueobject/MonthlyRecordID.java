@@ -1,5 +1,7 @@
 package com.expenses.valueobject;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -8,9 +10,11 @@ import java.util.Objects;
 @Embeddable
 public class MonthlyRecordID implements Serializable {
     @Column(name = "month")
+    @JsonProperty("month")
     private int month;
 
     @Column(name = "year")
+    @JsonProperty("year")
     private int year;
 
     public MonthlyRecordID() {}

@@ -1,5 +1,7 @@
 package com.expenses.valueobject;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.EnumType;
@@ -10,9 +12,11 @@ import java.util.Objects;
 @Embeddable
 public class BudgetID implements Serializable {
     @Embedded
+    @JsonProperty("monthlyRecordID")
     private MonthlyRecordID monthlyRecordID;
 
     @Enumerated(EnumType.STRING)
+    @JsonProperty("category")
     private BudgetCategory category;
 
     public BudgetID() {}

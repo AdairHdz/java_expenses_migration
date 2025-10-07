@@ -2,8 +2,11 @@ package com.expenses.entity;
 
 import com.expenses.valueobject.BudgetID;
 import com.expenses.valueobject.Money;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "budgets")
@@ -15,8 +18,15 @@ public class Budget {
     private int assignedAmount;
 
     @ManyToOne
-    @MapsId("monthlyRecordID")
+    @JoinColumns({
+        @JoinColumn(name = "month", referencedColumnName = "month", insertable = false, updatable = false),
+        @JoinColumn(name = "year", referencedColumnName = "year", insertable = false, updatable = false)
+    })
     private MonthlyRecord monthlyRecord;
+
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Expense> expenses = new ArrayList<>();
 
     public Budget() {}
 
@@ -40,5 +50,13 @@ public class Budget {
 
     public Money getAssignedAmount() {
         return new Money(this.assignedAmount);
+    }
+
+    public List<Expense> getExpenses() {
+        return this.expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 }

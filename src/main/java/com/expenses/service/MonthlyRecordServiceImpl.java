@@ -6,6 +6,7 @@ import com.expenses.dto.MonthlyRecordSummaryDTO;
 import com.expenses.entity.Budget;
 import com.expenses.entity.Expense;
 import com.expenses.entity.MonthlyRecord;
+import com.expenses.exception.DomainException;
 import com.expenses.exception.NotFoundException;
 import com.expenses.repository.BudgetRepository;
 import com.expenses.repository.ExpenseRepository;
@@ -32,6 +33,9 @@ public class MonthlyRecordServiceImpl implements MonthlyRecordService {
     @Override
     public MonthlyRecord createMonthlyRecord(Money initialBudget, Month month, Year year) {
         MonthlyRecordID monthlyRecordID = new MonthlyRecordID(month, year);
+        if(this.monthlyRecordRepository.existsById(monthlyRecordID)) {
+            throw new DomainException("A monthly record for the provided month and year already exists");
+        }
         MonthlyRecord monthlyRecord = new MonthlyRecord(monthlyRecordID, initialBudget);
         return this.monthlyRecordRepository.save(monthlyRecord);
     }

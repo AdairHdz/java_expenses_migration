@@ -7,6 +7,7 @@ import com.expenses.dto.ExpenseSummaryDTO;
 import com.expenses.entity.Budget;
 import com.expenses.entity.Expense;
 import com.expenses.entity.MonthlyRecord;
+import com.expenses.exception.DomainException;
 import com.expenses.exception.NotFoundException;
 import com.expenses.repository.BudgetRepository;
 import com.expenses.repository.ExpenseRepository;
@@ -34,6 +35,9 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget createBudget(BudgetID id, Money assignedAmount) {
+        if(this.budgetRepository.existsById(id)) {
+            throw new DomainException("A budget for the provided month, year and category already exists");
+        }
         Optional<MonthlyRecord> optionalMonthlyRecord = this.monthlyRecordRepository.findById(id.getMonthlyRecordID());
         if(!optionalMonthlyRecord.isPresent()) {
             throw new NotFoundException("Monthly record does not exist");

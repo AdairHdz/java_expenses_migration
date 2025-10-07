@@ -30,7 +30,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             throw new NotFoundException("budget does not exist");
         }
 
-        Expense newExpense = new Expense(concept, amount, status, budgetID);
+        Expense newExpense = new Expense(concept, amount, status, budget.get());
         return this.expenseRepository.save(newExpense);
     }
 

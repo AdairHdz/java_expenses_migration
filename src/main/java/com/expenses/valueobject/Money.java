@@ -1,6 +1,7 @@
 package com.expenses.valueobject;
 
 import com.expenses.exception.DomainException;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Money {
     // money in cents
@@ -13,6 +14,7 @@ public class Money {
         this.amount = amount;
     }
 
+    @JsonValue
     public int cents() {
         return this.amount;
     }

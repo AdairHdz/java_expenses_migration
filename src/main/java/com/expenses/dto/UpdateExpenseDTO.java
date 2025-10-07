@@ -2,10 +2,12 @@ package com.expenses.dto;
 
 import com.expenses.valueobject.BudgetCategory;
 import com.expenses.valueobject.ExpenseStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UpdateExpenseDTO {
     private Integer month;
     private Integer year;
+    @JsonProperty("category")
     private BudgetCategory budgetCategory;
     private ExpenseStatus status;
     private String concept;

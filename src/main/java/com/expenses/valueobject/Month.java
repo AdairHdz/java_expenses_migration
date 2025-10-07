@@ -1,6 +1,7 @@
 package com.expenses.valueobject;
 
 import com.expenses.exception.DomainException;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Month {
     // number of the month
@@ -13,6 +14,7 @@ public class Month {
         this.month = monthNumber;
     }
 
+    @JsonValue
     public int get() {
         return this.month;
     }

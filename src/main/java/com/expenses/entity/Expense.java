@@ -3,6 +3,7 @@ package com.expenses.entity;
 import com.expenses.valueobject.BudgetID;
 import com.expenses.valueobject.ExpenseStatus;
 import com.expenses.valueobject.Money;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -23,24 +24,30 @@ public class Expense {
     @Column(name = "status")
     private ExpenseStatus status;
 
-    @Embedded
-    private BudgetID budgetId;
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "month", referencedColumnName = "month"),
+        @JoinColumn(name = "year", referencedColumnName = "year"),
+        @JoinColumn(name = "category", referencedColumnName = "category")
+    })
+    @JsonIgnore
+    private Budget budget;
 
     public Expense() {}
 
-    public Expense(Long id, String concept, Money amount, ExpenseStatus status, BudgetID budgetId) {
+    public Expense(Long id, String concept, Money amount, ExpenseStatus status, Budget budget) {
         this.id = id;
         this.concept = concept;
         this.amount = amount.toMXN() != 0 ? (int)(amount.toMXN() * 100) : 0;
         this.status = status;
-        this.budgetId = budgetId;
+        this.budget = budget;
     }
 
-    public Expense(String concept, Money amount, ExpenseStatus status, BudgetID budgetId) {
+    public Expense(String concept, Money amount, ExpenseStatus status, Budget budget) {
         this.concept = concept;
         this.amount = amount.toMXN() != 0 ? (int)(amount.toMXN() * 100) : 0;
         this.status = status;
-        this.budgetId = budgetId;
+        this.budget = budget;
     }
 
     public void setId(Long id) {
@@ -73,5 +80,13 @@ public class Expense {
 
     public ExpenseStatus getStatus() {
         return this.status;
+    }
+
+    public Budget getBudget() {
+        return this.budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 }

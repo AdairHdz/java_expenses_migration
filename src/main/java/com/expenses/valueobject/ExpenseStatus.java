@@ -2,20 +2,27 @@ package com.expenses.valueobject;
 
 import com.expenses.exception.DomainException;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ExpenseStatus {
     PAID,
     PENDING_OF_PAYMENT;
 
     @JsonCreator
-    public static ExpenseStatus fromValue(Object value) {
-        if (value instanceof Number) {
-            int index = ((Number) value).intValue();
+    public static ExpenseStatus fromValue(String value) {
+        try {
+            int index = Integer.parseInt(value);
             if (index >= 0 && index < values().length) {
                 return values()[index];
             }
             throw new DomainException("Invalid status index: " + index);
+        } catch (NumberFormatException e) {
+            return ExpenseStatus.valueOf(value);
         }
-        return ExpenseStatus.valueOf(value.toString());
+    }
+
+    @JsonValue
+    public String toValue() {
+        return this.name();
     }
 }
