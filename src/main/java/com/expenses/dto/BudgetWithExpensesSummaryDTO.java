@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetWithExpensesSummaryDTO {
-    private BudgetCategory category;
+    private CategoryDTO category;
     private double totalMoneyAssigned;
     private double totalMoneyPendingOfPayment;
     private double totalMoneyAlreadyPaid;
@@ -16,7 +16,7 @@ public class BudgetWithExpensesSummaryDTO {
     public BudgetWithExpensesSummaryDTO() {
     }
 
-    public BudgetWithExpensesSummaryDTO(BudgetCategory category, double totalMoneyAssigned, double totalMoneyPendingOfPayment, double totalMoneyAlreadyPaid, double remainingMoney, List<ExpenseSummaryDTO> expensesSummaries) {
+    public BudgetWithExpensesSummaryDTO(CategoryDTO category, double totalMoneyAssigned, double totalMoneyPendingOfPayment, double totalMoneyAlreadyPaid, double remainingMoney, List<ExpenseSummaryDTO> expensesSummaries) {
         this.category = category;
         this.totalMoneyAssigned = totalMoneyAssigned;
         this.totalMoneyPendingOfPayment = totalMoneyPendingOfPayment;
@@ -25,11 +25,11 @@ public class BudgetWithExpensesSummaryDTO {
         this.expensesSummaries = expensesSummaries;
     }
 
-    public BudgetCategory getCategory() {
+    public CategoryDTO getCategory() {
         return category;
     }
 
-    public void setCategory(BudgetCategory category) {
+    public void setCategory(CategoryDTO category) {
         this.category = category;
     }
 

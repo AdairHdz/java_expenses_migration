@@ -45,4 +45,9 @@ public class ExpenseServiceImpl implements ExpenseService {
         expense.setAmount(amount);
         this.expenseRepository.save(expense);
     }
+
+    @Override
+    public void deleteExpense(Long id) {
+        this.expenseRepository.deleteById(id);
+    }
 }

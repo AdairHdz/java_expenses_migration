@@ -10,4 +10,5 @@ import com.expenses.valueobject.Year;
 public interface MonthlyRecordService {
     MonthlyRecord createMonthlyRecord(Money initialBudget, Month month, Year year);
     MonthlyRecordSummaryDTO getMonthlyRecordSummary(MonthlyRecordID monthlyRecordId);
+    void updateMonthlyRecord(MonthlyRecordID id, Money initialBudget);
 }

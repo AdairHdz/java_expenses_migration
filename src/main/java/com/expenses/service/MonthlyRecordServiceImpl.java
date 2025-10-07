@@ -81,4 +81,15 @@ public class MonthlyRecordServiceImpl implements MonthlyRecordService {
 
         return monthlyRecordSummaryDTO;
     }
+
+    @Override
+    public void updateMonthlyRecord(MonthlyRecordID id, Money initialBudget) {
+        Optional<MonthlyRecord> optionalMonthlyRecord = this.monthlyRecordRepository.findById(id);
+        if(!optionalMonthlyRecord.isPresent()) {
+            throw new NotFoundException("Monthly Record does not exist");
+        }
+        MonthlyRecord monthlyRecord = optionalMonthlyRecord.get();
+        monthlyRecord.setInitialBudget(initialBudget);
+        this.monthlyRecordRepository.save(monthlyRecord);
+    }
 }

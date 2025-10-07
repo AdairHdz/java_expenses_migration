@@ -8,4 +8,5 @@ import com.expenses.valueobject.Money;
 public interface ExpenseService {
     Expense addExpenseToBudget(BudgetID budgetID, String concept, ExpenseStatus status, Money amount);
     void updateExpense(Long expenseID, ExpenseStatus status, Money amount);
+    void deleteExpense(Long id);
 }

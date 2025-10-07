@@ -1,20 +1,26 @@
 package com.expenses.dto;
 
-
-import com.expenses.valueobject.ExpenseStatus;
-
 public class ExpenseSummaryDTO {
+    private Long id;
     private String concept;
-    private double money;
-    private ExpenseStatus status;
+    private double amount;
+    private ExpenseStatusDTO status;
 
     public ExpenseSummaryDTO() {
     }
 
-    public ExpenseSummaryDTO(String concept, double money, ExpenseStatus status) {
+    public ExpenseSummaryDTO(String concept, double money, ExpenseStatusDTO status) {
         this.concept = concept;
-        this.money = money;
+        this.amount = money;
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getConcept() {
@@ -25,19 +31,19 @@ public class ExpenseSummaryDTO {
         this.concept = concept;
     }
 
-    public double getMoney() {
-        return money;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setMoney(double money) {
-        this.money = money;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public ExpenseStatus getStatus() {
+    public ExpenseStatusDTO getStatus() {
         return status;
     }
 
-    public void setStatus(ExpenseStatus status) {
+    public void setStatus(ExpenseStatusDTO status) {
         this.status = status;
     }
 }

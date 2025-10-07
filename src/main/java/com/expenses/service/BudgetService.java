@@ -9,4 +9,6 @@ import com.expenses.valueobject.Money;
 public interface BudgetService {
     Budget createBudget(BudgetID id, Money assignedAmount);
     BudgetWithExpensesSummaryDTO getBudgetWithExpenses(BudgetID budgetId);
+    void deleteById(BudgetID budgetId);
+    void updateBudget(BudgetID budgetID, Money assignedAmount);
 }

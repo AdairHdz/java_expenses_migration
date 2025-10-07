@@ -1,6 +1,8 @@
 package com.expenses.service;
 
 import com.expenses.dto.BudgetWithExpensesSummaryDTO;
+import com.expenses.dto.CategoryDTO;
+import com.expenses.dto.ExpenseStatusDTO;
 import com.expenses.dto.ExpenseSummaryDTO;
 import com.expenses.entity.Budget;
 import com.expenses.entity.Expense;
@@ -50,7 +52,8 @@ public class BudgetServiceImpl implements BudgetService {
 
         Budget budget = optionalBudget.get();
         BudgetWithExpensesSummaryDTO budgetWithExpensesSummaryDTO = new BudgetWithExpensesSummaryDTO();
-        budgetWithExpensesSummaryDTO.setCategory(budget.getId().getCategory());
+        CategoryDTO categoryDTO = new CategoryDTO(budget.getId().getCategory().ordinal(), budget.getId().getCategory().name());
+        budgetWithExpensesSummaryDTO.setCategory(categoryDTO);
         budgetWithExpensesSummaryDTO.setTotalMoneyAssigned(budget.getAssignedAmount().toMXN());
 
         Money totalMoneyAlreadyPaid = new Money(0);
@@ -59,7 +62,8 @@ public class BudgetServiceImpl implements BudgetService {
         List<Expense> expenses = this.expenseRepository.findByBudgetId(budgetId);
         for(Expense expense : expenses) {
 
-            ExpenseSummaryDTO expenseSummaryDTO = new ExpenseSummaryDTO(expense.getConcept(), expense.getAmount().toMXN(), expense.getStatus());
+            ExpenseStatusDTO expenseStatusDTO = new ExpenseStatusDTO(expense.getStatus().ordinal(), expense.getStatus().name());
+            ExpenseSummaryDTO expenseSummaryDTO = new ExpenseSummaryDTO(expense.getConcept(), expense.getAmount().toMXN(), expenseStatusDTO);
 
             if(expense.getStatus() == ExpenseStatus.PAID) {
                 totalMoneyAlreadyPaid = totalMoneyAlreadyPaid.add(expense.getAmount());
@@ -78,5 +82,21 @@ public class BudgetServiceImpl implements BudgetService {
         budgetWithExpensesSummaryDTO.setRemainingMoney(remainingMoney.toMXN());
         return budgetWithExpensesSummaryDTO;
 
+    }
+
+    @Override
+    public void deleteById(BudgetID budgetId) {
+        this.budgetRepository.deleteById(budgetId);
+    }
+
+    @Override
+    public void updateBudget(BudgetID budgetID, Money assignedAmount) {
+        Optional<Budget> optionalBudget = this.budgetRepository.findById(budgetID);
+        if(!optionalBudget.isPresent()) {
+            throw new NotFoundException("Budget does not exist");
+        }
+        Budget budget = optionalBudget.get();
+        budget.setAssignedAmount(assignedAmount);
+        this.budgetRepository.save(budget);
     }
 }

@@ -3,7 +3,7 @@ package com.expenses.dto;
 import com.expenses.valueobject.BudgetCategory;
 
 public class BudgetSummaryDTO {
-    private com.expenses.valueobject.BudgetCategory category;
+    private CategoryDTO category;
     private double totalMoneyAssigned;
     private double totalMoneyPendingOfPayment;
     private double totalMoneyAlreadyPaid;
@@ -11,18 +11,18 @@ public class BudgetSummaryDTO {
     public BudgetSummaryDTO() {
     }
 
-    public BudgetSummaryDTO(BudgetCategory category, double totalMoneyAssigned, double totalMoneyPendingOfPayment, double totalMoneyAlreadyPaid) {
+    public BudgetSummaryDTO(CategoryDTO category, double totalMoneyAssigned, double totalMoneyPendingOfPayment, double totalMoneyAlreadyPaid) {
         this.category = category;
         this.totalMoneyAssigned = totalMoneyAssigned;
         this.totalMoneyPendingOfPayment = totalMoneyPendingOfPayment;
         this.totalMoneyAlreadyPaid = totalMoneyAlreadyPaid;
     }
 
-    public BudgetCategory getCategory() {
+    public CategoryDTO getCategory() {
         return category;
     }
 
-    public void setCategory(BudgetCategory category) {
+    public void setCategory(CategoryDTO category) {
         this.category = category;
     }
 

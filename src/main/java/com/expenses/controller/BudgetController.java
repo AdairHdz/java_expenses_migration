@@ -2,10 +2,12 @@ package com.expenses.controller;
 
 import com.expenses.dto.BudgetWithExpensesSummaryDTO;
 import com.expenses.dto.CreateBudgetDTO;
+import com.expenses.dto.UpdateBudgetDTO;
 import com.expenses.entity.Budget;
 import com.expenses.entity.MonthlyRecord;
 import com.expenses.service.BudgetService;
 import com.expenses.valueobject.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +40,7 @@ public class BudgetController {
         return ResponseEntity.ok("OK");
     }
 
-    @GetMapping("/{year}/{month}/{category}")
+    @GetMapping("{year}/{month}/{category}")
     public ResponseEntity<?> findByMonthAndYearAndCategory(
             @PathVariable("month") @Min(value = 1, message = "Month must be between 1 and 12") @Max(value = 12, message = "Month must be between 1 and 12") int month,
             @PathVariable("year") int year,
@@ -53,5 +55,31 @@ public class BudgetController {
 
         BudgetWithExpensesSummaryDTO budgetWithExpensesSummaryDTO =  this.budgetService.getBudgetWithExpenses(budgetID);
         return ResponseEntity.ok(budgetWithExpensesSummaryDTO);
+    }
+
+    @DeleteMapping("{year}/{month}/{category}")
+    public ResponseEntity<?> delete(
+            @PathVariable("month") @Min(value = 1, message = "Month must be between 1 and 12") @Max(value = 12, message = "Month must be between 1 and 12") int month,
+            @PathVariable("year") @Min(value = 2000, message = "Year must be grater than or equal to 2000") @Max(value = 2030, message = "Year must be less than or equal to 2030") int year,
+            @PathVariable("category") BudgetCategory category
+    ) {
+        MonthlyRecordID monthlyRecordID = new MonthlyRecordID(new Month(month), new Year(year));
+        BudgetID budgetId = new BudgetID(monthlyRecordID, category);
+        this.budgetService.deleteById(budgetId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("{year}/{month}/{category}")
+    public ResponseEntity<?> update(
+            @PathVariable("month") @Min(value = 1, message = "Month must be between 1 and 12") @Max(value = 12, message = "Month must be between 1 and 12") int month,
+            @PathVariable("year") @Min(value = 2000, message = "Year must be grater than or equal to 2000") @Max(value = 2030, message = "Year must be less than or equal to 2030") int year,
+            @PathVariable("category") BudgetCategory category,
+            @Valid @RequestBody UpdateBudgetDTO updateBudgetDTO
+    ) {
+        MonthlyRecordID monthlyRecordID = new MonthlyRecordID(new Month(month), new Year(year));
+        BudgetID budgetID = new BudgetID(monthlyRecordID, category);
+        Money assignedAmount = new Money(updateBudgetDTO.getAssignedAmount());
+        this.budgetService.updateBudget(budgetID, assignedAmount);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
