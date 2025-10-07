@@ -1,6 +1,7 @@
 package com.expenses.controller;
 
 import com.expenses.dto.CreateExpenseDTO;
+import com.expenses.dto.HttpResponseDTO;
 import com.expenses.dto.UpdateExpenseDTO;
 import com.expenses.entity.Expense;
 import com.expenses.service.ExpenseService;
@@ -34,13 +35,15 @@ public class ExpenseController {
                 createExpenseDTO.getStatus(),
                 new Money(createExpenseDTO.getAmount())
         );
-        return ResponseEntity.ok("OK");
+
+        HttpResponseDTO<Expense> expenseHttpResponseDTO = new HttpResponseDTO<>("Expense created successfully", expense);
+        return new ResponseEntity<>(expenseHttpResponseDTO, HttpStatus.CREATED);
     }
 
     @PatchMapping("{id}")
     public ResponseEntity<?> patch(@PathVariable("id") Long id, @RequestBody UpdateExpenseDTO updateExpenseStatusDTO) {
         this.expenseService.updateExpense(id,updateExpenseStatusDTO.getStatus(), new Money(updateExpenseStatusDTO.getAmount()));
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("{id}")

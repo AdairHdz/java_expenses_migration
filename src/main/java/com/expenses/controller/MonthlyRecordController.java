@@ -1,6 +1,7 @@
 package com.expenses.controller;
 
 import com.expenses.dto.CreateMonthlyRecordDTO;
+import com.expenses.dto.HttpResponseDTO;
 import com.expenses.dto.MonthlyRecordSummaryDTO;
 import com.expenses.dto.UpdateMonthlyRecordDTO;
 import com.expenses.entity.MonthlyRecord;
@@ -33,7 +34,8 @@ public class MonthlyRecordController {
                 new Month(createMonthlyRecordDTO.getMonth()),
                 new Year(createMonthlyRecordDTO.getYear())
         );
-        return ResponseEntity.ok("ok");
+        HttpResponseDTO<MonthlyRecord> monthlyRecordHttpResponseDTO = new HttpResponseDTO<>("Monthly record created successfully", monthlyRecord);
+        return new ResponseEntity<>(monthlyRecordHttpResponseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("{year}/{month}")
@@ -43,7 +45,8 @@ public class MonthlyRecordController {
     ) {
         MonthlyRecordID monthlyRecordID = new MonthlyRecordID(new Month(month), new Year(year));
         MonthlyRecordSummaryDTO monthlyRecordSummaryDTO = this.monthlyRecordService.getMonthlyRecordSummary(monthlyRecordID);
-        return ResponseEntity.ok(monthlyRecordSummaryDTO);
+        HttpResponseDTO<MonthlyRecordSummaryDTO> monthlyRecordSummaryDTOHttpResponseDTO = new HttpResponseDTO<>("Monthly record summary fetched correctly", monthlyRecordSummaryDTO);
+        return new ResponseEntity<>(monthlyRecordSummaryDTOHttpResponseDTO, HttpStatus.OK);
     }
 
     @PatchMapping("{year}/{month}")

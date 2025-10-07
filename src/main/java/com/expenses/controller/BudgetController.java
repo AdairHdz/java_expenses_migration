@@ -2,6 +2,7 @@ package com.expenses.controller;
 
 import com.expenses.dto.BudgetWithExpensesSummaryDTO;
 import com.expenses.dto.CreateBudgetDTO;
+import com.expenses.dto.HttpResponseDTO;
 import com.expenses.dto.UpdateBudgetDTO;
 import com.expenses.entity.Budget;
 import com.expenses.entity.MonthlyRecord;
@@ -37,7 +38,8 @@ public class BudgetController {
         BudgetID budgetID = new BudgetID(monthlyRecordID, createBudgetDTO.getCategory());
 
         Budget budget = this.budgetService.createBudget(budgetID, new Money(createBudgetDTO.getAssignedAmount()));
-        return ResponseEntity.ok("OK");
+        HttpResponseDTO<Budget> httpResponseDTO = new HttpResponseDTO<>("Budget created successfully", budget);
+        return new ResponseEntity<>(httpResponseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("{year}/{month}/{category}")
@@ -54,7 +56,8 @@ public class BudgetController {
         BudgetID budgetID = new BudgetID(monthlyRecordID, category);
 
         BudgetWithExpensesSummaryDTO budgetWithExpensesSummaryDTO =  this.budgetService.getBudgetWithExpenses(budgetID);
-        return ResponseEntity.ok(budgetWithExpensesSummaryDTO);
+        HttpResponseDTO<BudgetWithExpensesSummaryDTO> budgetWithExpensesSummaryDTOHttpResponseDTO = new HttpResponseDTO<>("Budget with expenses summary fetched correctly", budgetWithExpensesSummaryDTO);
+        return new ResponseEntity<>(budgetWithExpensesSummaryDTOHttpResponseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("{year}/{month}/{category}")
