@@ -9,9 +9,10 @@ public class ExpenseSummaryDTO {
     public ExpenseSummaryDTO() {
     }
 
-    public ExpenseSummaryDTO(String concept, double money, ExpenseStatusDTO status) {
+    public ExpenseSummaryDTO(Long id, String concept, double amount, ExpenseStatusDTO status) {
+        this.id = id;
         this.concept = concept;
-        this.amount = money;
+        this.amount = amount;
         this.status = status;
     }
 

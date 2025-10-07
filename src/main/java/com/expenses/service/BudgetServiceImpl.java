@@ -63,7 +63,7 @@ public class BudgetServiceImpl implements BudgetService {
         for(Expense expense : expenses) {
 
             ExpenseStatusDTO expenseStatusDTO = new ExpenseStatusDTO(expense.getStatus().ordinal(), expense.getStatus().name());
-            ExpenseSummaryDTO expenseSummaryDTO = new ExpenseSummaryDTO(expense.getConcept(), expense.getAmount().toMXN(), expenseStatusDTO);
+            ExpenseSummaryDTO expenseSummaryDTO = new ExpenseSummaryDTO(expense.getId(), expense.getConcept(), expense.getAmount().toMXN(), expenseStatusDTO);
 
             if(expense.getStatus() == ExpenseStatus.PAID) {
                 totalMoneyAlreadyPaid = totalMoneyAlreadyPaid.add(expense.getAmount());

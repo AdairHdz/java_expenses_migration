@@ -1,6 +1,7 @@
 package com.expenses.service;
 
 import com.expenses.dto.BudgetSummaryDTO;
+import com.expenses.dto.CategoryDTO;
 import com.expenses.dto.MonthlyRecordSummaryDTO;
 import com.expenses.entity.Budget;
 import com.expenses.entity.Expense;
@@ -66,7 +67,8 @@ public class MonthlyRecordServiceImpl implements MonthlyRecordService {
             }
 
             BudgetSummaryDTO budgetSummaryDTO = new BudgetSummaryDTO();
-            budgetSummaryDTO.setCategory(budget.getId().getCategory());
+            CategoryDTO categoryDTO = new CategoryDTO(budget.getId().getCategory().ordinal(), budget.getId().getCategory().name());
+            budgetSummaryDTO.setCategory(categoryDTO);
             budgetSummaryDTO.setTotalMoneyAssigned(budget.getAssignedAmount().toMXN());
             budgetSummaryDTO.setTotalMoneyAlreadyPaid(totalMoneyAlreadyPaidPerBudget.toMXN());
             budgetSummaryDTO.setTotalMoneyPendingOfPayment(totalMoneyPendingOfPaymentPerBudget.toMXN());

@@ -11,7 +11,7 @@ public class CreateMonthlyRecordDTO {
     private Integer month;
 
     @NotNull(message = "Year is required")
-    @Min(value = 2020, message = "Year must be at least 2020")
+    @Min(value = 2000, message = "Year must be at least 2000")
     private Integer year;
 
     @NotNull(message = "initialBudget is required")
